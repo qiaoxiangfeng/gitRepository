@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.fandeng.dao.MemberDao">
+
+	<select id="get" resultType="com.bootdo.fandeng.domain.MemberDO">
+		select `id`,`member_id`,`member_name`,`member_number`,`member_phone`,`member_wechat`,`member_begin`,`member_end`,`invite_member_id`,`invite_number`,`invite_prize`,`create_time`,`update_time` from member where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.fandeng.domain.MemberDO">
+		select `id`,`member_id`,`member_name`,`member_number`,`member_phone`,`member_wechat`,`member_begin`,`member_end`,`invite_member_id`,`invite_number`,`invite_prize`,`create_time`,`update_time` from member
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="memberId != null and memberId != ''"> and member_id = #{memberId} </if>
+		  		  <if test="memberName != null and memberName != ''"> and member_name = #{memberName} </if>
+		  		  <if test="memberNumber != null and memberNumber != ''"> and member_number = #{memberNumber} </if>
+		  		  <if test="memberPhone != null and memberPhone != ''"> and member_phone = #{memberPhone} </if>
+		  		  <if test="memberWechat != null and memberWechat != ''"> and member_wechat = #{memberWechat} </if>
+		  		  <if test="memberBegin != null and memberBegin != ''"> and member_begin = #{memberBegin} </if>
+		  		  <if test="memberEnd != null and memberEnd != ''"> and member_end = #{memberEnd} </if>
+		  		  <if test="inviteMemberId != null and inviteMemberId != ''"> and invite_member_id = #{inviteMemberId} </if>
+		  		  <if test="inviteNumber != null and inviteNumber != ''"> and invite_number = #{inviteNumber} </if>
+		  		  <if test="invitePrize != null and invitePrize != ''"> and invite_prize = #{invitePrize} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from member
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="memberId != null and memberId != ''"> and member_id = #{memberId} </if>
+		  		  <if test="memberName != null and memberName != ''"> and member_name = #{memberName} </if>
+		  		  <if test="memberNumber != null and memberNumber != ''"> and member_number = #{memberNumber} </if>
+		  		  <if test="memberPhone != null and memberPhone != ''"> and member_phone = #{memberPhone} </if>
+		  		  <if test="memberWechat != null and memberWechat != ''"> and member_wechat = #{memberWechat} </if>
+		  		  <if test="memberBegin != null and memberBegin != ''"> and member_begin = #{memberBegin} </if>
+		  		  <if test="memberEnd != null and memberEnd != ''"> and member_end = #{memberEnd} </if>
+		  		  <if test="inviteMemberId != null and inviteMemberId != ''"> and invite_member_id = #{inviteMemberId} </if>
+		  		  <if test="inviteNumber != null and inviteNumber != ''"> and invite_number = #{inviteNumber} </if>
+		  		  <if test="invitePrize != null and invitePrize != ''"> and invite_prize = #{invitePrize} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.fandeng.domain.MemberDO">
+		insert into member
+		(
+			`id`, 
+			`member_id`, 
+			`member_name`, 
+			`member_number`, 
+			`member_phone`, 
+			`member_wechat`, 
+			`member_begin`, 
+			`member_end`, 
+			`invite_member_id`, 
+			`invite_number`, 
+			`invite_prize`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{id}, 
+			#{memberId}, 
+			#{memberName}, 
+			#{memberNumber}, 
+			#{memberPhone}, 
+			#{memberWechat}, 
+			#{memberBegin}, 
+			#{memberEnd}, 
+			#{inviteMemberId}, 
+			#{inviteNumber}, 
+			#{invitePrize}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.fandeng.domain.MemberDO">
+		update member 
+		<set>
+			<if test="memberId != null">`member_id` = #{memberId}, </if>
+			<if test="memberName != null">`member_name` = #{memberName}, </if>
+			<if test="memberNumber != null">`member_number` = #{memberNumber}, </if>
+			<if test="memberPhone != null">`member_phone` = #{memberPhone}, </if>
+			<if test="memberWechat != null">`member_wechat` = #{memberWechat}, </if>
+			<if test="memberBegin != null">`member_begin` = #{memberBegin}, </if>
+			<if test="memberEnd != null">`member_end` = #{memberEnd}, </if>
+			<if test="inviteMemberId != null">`invite_member_id` = #{inviteMemberId}, </if>
+			<if test="inviteNumber != null">`invite_number` = #{inviteNumber}, </if>
+			<if test="invitePrize != null">`invite_prize` = #{invitePrize}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from member where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from member where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
